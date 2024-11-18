@@ -12,7 +12,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return view('book.index', [
+            'books' => Book::paginate(10)
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('book.create');
     }
 
     /**
@@ -28,7 +30,19 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         Book::create($request->validate([
+            'title'=>'required',
+            'release_date'=>'required',
+            'language'=>'required',
+            'summary'=>'required',
+            'price'=>'required',
+            'stock_saldo'=>'required',
+            'pages'=>'required',
+            'type'=>'required',
+        ]));
+        return redirect()->
+        route('books.index')->
+        with('message', 'Title added');
     }
 
     /**
@@ -44,7 +58,9 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return view ('book.edit', [
+            'book' => $book,
+        ]);
     }
 
     /**
@@ -52,7 +68,21 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $book->update($request->validate([
+            'title'=>'required',
+            'release_date'=>'required',
+            'language'=>'required',
+            'summary'=>'required',
+            'price'=>'required',
+            'stock_saldo'=>'required',
+            'pages'=>'required',
+            'type'=>'required',
+            
+        ]));
+
+        return redirect()->
+        route('books.index')->
+        with('message', __('#:id updated!', ['id' => $book->id]));
     }
 
     /**
@@ -60,6 +90,12 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return redirect()->
+        back()->
+        with('message', __('Book :title deleted', [
+            'title' => $book->title,
+        ]));
     }
 }

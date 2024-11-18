@@ -12,7 +12,9 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        return view('author.index', [
+            'authors' => Author::paginate(10)
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        //
+        return view('author.create');
     }
 
     /**
@@ -28,7 +30,11 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Author::create($request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+        ]));
+        return redirect()->route('authors.index')->with('message', 'Author added');
     }
 
     /**
@@ -44,7 +50,9 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        //
+        return view ('author.edit', [
+            'author' => $author,
+        ]);
     }
 
     /**
@@ -52,7 +60,14 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        $author->update($request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+        ]));
+
+        return redirect()->
+        route('authors.index')->
+        with('message', __('#:id updated!', ['id' => $author->id]));
     }
 
     /**
@@ -60,6 +75,13 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
+
+        return redirect()->
+        back()->
+        with('message', __('Author :first_name :last_name deleted', [
+            'first_name' => $author->first_name,
+            'last_name' => $author->last_name,
+        ]));
     }
 }

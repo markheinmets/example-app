@@ -12,7 +12,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        return view('client.index', [
+            'clients' => Client::paginate(10)
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.create');
     }
 
     /**
@@ -28,7 +30,17 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Client::create($request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'email'=>'required',
+            'username'=>'required',
+            'password'=>'required',
+            'address'=>'required',
+        ]));
+        return redirect()->
+        route('clients.index')->
+        with('message', 'Client added');
     }
 
     /**
@@ -44,7 +56,9 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view ('client.edit', [
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -52,7 +66,17 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $client->update($request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'email'=>'required',
+            'username'=>'required',
+            'password'=>'required',
+            'address'=>'required',
+        ]));
+        return redirect()->
+        route('clients.index')->
+        with('message', __('#:id updated!', ['id' => $client->id]));
     }
 
     /**
@@ -60,6 +84,13 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
+
+        return redirect()->
+        back()->
+        with('message', __('Client :first_name :last_name deleted', [
+            'first_name' => $client->first_name,
+            'last_name' => $client->last_name,
+        ]));
     }
 }

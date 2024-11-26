@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ClientController;
 use App\Models\Order;
 use App\Models\Tree;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,4 @@ Route::get('/orders/{order}', function(Order $order){
 
 Route::resource('authors', AuthorController::class);
 Route::resource('books', BookController::class);
+Route::resource('clients', ClientController::class);

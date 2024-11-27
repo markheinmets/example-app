@@ -13,7 +13,8 @@ class BookController extends Controller
     public function index()
     {
         return view('book.index', [
-            'books' => Book::paginate(10)
+            'books' => Book::with('authors')->
+            paginate(20)
         ]);
     }
 
@@ -22,7 +23,13 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('book.create');
+        return view('book.create', [
+            'types' => [
+                'new' => 'New',
+                'used' => 'Used',
+                'ebook' => 'eBook'
+            ]
+            ]);
     }
 
     /**
@@ -32,12 +39,11 @@ class BookController extends Controller
     {
          Book::create($request->validate([
             'title'=>'required',
-            'release_date'=>'required',
+            'release_date'=>'required|numeric',
             'language'=>'required',
-            'summary'=>'required',
-            'price'=>'required',
-            'stock_saldo'=>'required',
-            'pages'=>'required',
+            'price'=>'required|numeric',
+            'stock_saldo'=>'required|numeric',
+            'pages'=>'required|numeric',
             'type'=>'required',
         ]));
         return redirect()->
@@ -60,7 +66,12 @@ class BookController extends Controller
     {
         return view ('book.edit', [
             'book' => $book,
-        ]);
+            'types' => [
+                'new' => 'New',
+                'used' => 'Used',
+                'ebook' => 'eBook'
+            ],
+            ]);
     }
 
     /**
@@ -70,12 +81,11 @@ class BookController extends Controller
     {
         $book->update($request->validate([
             'title'=>'required',
-            'release_date'=>'required',
+            'release_date'=>'required|numeric',
             'language'=>'required',
-            'summary'=>'required',
-            'price'=>'required',
-            'stock_saldo'=>'required',
-            'pages'=>'required',
+            'price'=>'required|numeric',
+            'stock_saldo'=>'required|numeric',
+            'pages'=>'required|numeric',
             'type'=>'required',
             
         ]));

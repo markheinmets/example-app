@@ -4,8 +4,8 @@
             <form action="{{route('books.update', $book)}}" method="POST">
                 @method('PUT')
                 @csrf
-                <div class="max-w-sm p-2 flex flex-col gap-2">
-                    <div>
+                <div class="max-w-sm p-2 grid grid-cols-3 gap-2">
+                    <div class="col-span-3">
                     <label for="title" class="block text-xs font-medium text-gray-700"> Title </label>
 
                     <input
@@ -47,7 +47,7 @@
                             <span class="text-xs text-red-500">{{$message}}</span>
                         @enderror
                     </div>
-                    <div>
+                    <div class="col-span-3">
                     <label for="summary" class="block text-xs font-medium text-gray-700"> Summary </label>
 
                     <input
@@ -103,19 +103,16 @@
                             <span class="text-xs text-red-500">{{$message}}</span>
                         @enderror
                     </div>
-                    <div>
+                    <div class="col-span-3">
                     <label for="type" class="block text-xs font-medium text-gray-700"> Condition </label>
-                    <select
-                    type="enum"
-                    id="type"
-                    name="type"
-                    class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
-                    >
-                        <option value="" disabled selected>{{ $book->type ? $book->type : 'Select a type' }}</option>
-                        <option value="new">new</option>
-                        <option value="used">used</option>
-                        <option value="eBook">eBook</option>
-                    </select>
+                    <select class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" 
+                        name="type"
+                        id="type">
+                    @foreach ($types as $key => $value)
+                        <option value="{{ $key }}" {{ $book->type === $key ? 'selected' : '' }}>
+                            {{ $value }}</option>
+                    @endforeach
+                </select>
                     @error('type')
                             <span class="text-xs text-red-500">{{$message}}</span>
                         @enderror

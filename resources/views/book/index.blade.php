@@ -8,6 +8,7 @@
                 <thead class="text-left">
                 <tr>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Title</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Authors</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created at</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Type</th>
                 </tr>
@@ -17,6 +18,11 @@
                  @foreach ( $books as $book)
                 <tr>
                     <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{$book->title}}</td>
+                    <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        @foreach ($book->authors as $author)
+                        {{$author->full_name}}{{ !$loop->last ? ',' : '' }}
+                        @endforeach
+                    </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{$book->created_at}}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{$book->type}}</td>
                     <td>

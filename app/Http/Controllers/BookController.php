@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,8 @@ class BookController extends Controller
                 'new' => 'New',
                 'used' => 'Used',
                 'ebook' => 'eBook'
-            ]
+            ],
+            'authors' => Author::orderBy('first_name')->get(), 
             ]);
     }
 
@@ -37,7 +39,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-         Book::create($request->validate([
+         $book = Book::create($request->validate([
             'title'=>'required',
             'release_date'=>'required|numeric',
             'language'=>'required',
@@ -46,6 +48,8 @@ class BookController extends Controller
             'pages'=>'required|numeric',
             'type'=>'required',
         ]));
+        $book->authors()->attach($request->author);
+
         return redirect()->
         route('books.index')->
         with('message', 'Title added');

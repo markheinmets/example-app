@@ -9,6 +9,7 @@
                 <tr>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Title</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Authors</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Release date</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created at</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Type</th>
                 </tr>
@@ -23,10 +24,11 @@
                         {{$author->full_name}}{{ !$loop->last ? ',' : '' }}
                         @endforeach
                     </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{$book->release_date}}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{$book->created_at}}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{$book->type}}</td>
                     <td>
-                        <div class="grid grid-cols-2">
+                        <div class="grid lg:grid-cols-2">
                             <a href="{{route('books.edit', $book)}}" class="font-medium">
                                 Edit
                             </a>

@@ -99,7 +99,7 @@
                         name="pages"
                         class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
                     />
-                    @error('title')
+                    @error('pages')
                             <span class="text-xs text-red-500">{{$message}}</span>
                         @enderror
                     </div>
